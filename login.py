@@ -16,7 +16,7 @@ class Login:
         login_fram.place(x=500, y=130, width=500, height=500)
         
         
-        title = Label(login_fram, text="Connexion", font=("algerian",40,"bold"), bg="cyan",fg="black")
+        title = Label(login_fram, text="Portail AKG", font=("algerian",40,"bold"), bg="cyan",fg="black")
         title.pack(side=TOP, fill=X)
         
         
@@ -63,13 +63,69 @@ class Login:
         
         
         
-        
-        
+    def password_oublie_fenetre(self):
+        if self.txt_email.get() == "":
+            messagebox.showerror("Erreur","veuillez renseigner votre Email", parent=self.root)
+        else:
+            try:
+                con = pymysql.connect(host="localhost", user="root", passwd="", database="python_etudiant")
+                cur = con.cursor()
+                cur.execute("SELECT * FROM compte WHERE email=%s", (self.txt_email.get(),))
+                row = cur.fetchone()
+                
+                if row is not None:
+                    messagebox.showerror("Erreur", "Cet email n'existe pas", parent=self.root)
+                    
+                else:
+                    self.root2 = Toplevel()
+                    self.root2.title("Mot de passe oublié")
+                    self.root2.geometry("400x400+800+500")
+                    self.root2.focus_force()
+                    self.root2.grab_set()
+                    
+                    title = Label(self.root2, text="Mot de passe oublié", font=("algerian",20,"bold"), bg="red", fg="black")
+                    title.pack(side=TOP, fill=X)
+                    
+                    
+                    #Question
+                    aff_question = Label(self.root2, text="Séléctionnez une question", font=("algerian", 15, "bold"), bg="grey", fg="black").place(x=70, y=50)
+                    self.ecrit_question = ttk.Combobox(self.root2, font=("algerian", 15), state="readonly")
+                    self.ecrit_question["values"] = ("Select", "Ton surnom", "Lieu de naissance", "Meilleur ami", "Film préféré")
+                    self.ecrit_question.place(x=70, y=100, width=250)
+                    self.ecrit_question.current(0)
+                    
+                    #Reponses
+                    aff_repondre = Label(self.root2, text="Répondre", font=("algerian", 15, "bold"), bg="grey", fg="black").place(x=70, y=150)
+                    self.ecrit_repondre = Entry(self.root2,font=("times new roman",15), bg="white")
+                    self.ecrit_repondre.place(x=70, y=20, width=250)
+                    
+                    #changer mot de passe
+                    aff_nouvpass = Label(self.root2, text="Nouveau mot de passe", font=("algerian", 15, "bold"), bg="grey", fg="black").place(x=70, y=150)
+                    self.ecrit_nouvpass = Entry(self.root2,font=("times new roman",15), bg="white")
+                    self.ecrit_nouvpass.place(x=70, y=20, width=250)
+                    
             
+            except Exception as ex:
+                messagebox.showerror("Erreur", f"Erreur de connexion : {str(ex)}", parent=self.root)
+        
+            finally:
+                if con:
+                    con.close()
         
     
     
-    
+
+
+
+
+
+
+
+
+
+
+
+
 root = Tk()
 obj = Login(root)
 root.mainloop()
