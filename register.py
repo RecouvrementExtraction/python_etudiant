@@ -59,7 +59,7 @@ class Formulaire:
 
         # boutons de validation de connexion
         btn1 = Button(frame1, text="Créer", font=("algerian", 15, "bold"), bg="cyan", fg="black", cursor="hand2", command=self.creer).place(x=250, y=430, width=250)
-        btn2 = Button(frame1, text="Connexion", font=("algerian", 15, "bold"), bg="cyan", fg="black", cursor="hand2").place(x=550, y=60, width=140)
+        btn2 = Button(frame1, text="Connexion", font=("algerian", 15, "bold"), bg="cyan", fg="black", cursor="hand2", command=self.fenetre_formulaire).place(x=550, y=60, width=140)
 
 
 
@@ -120,6 +120,22 @@ class Formulaire:
         self.ecrit_confPassword.delete(0, END)
         self.ecrit_question.current(0)  # Réinitialiser le combobox à la valeur par défaut
         self.var_check.set(0)
+        
+        
+        
+        
+        
+    def fenetre_formulaire(self):
+        self.root.destroy()
+        import login  
+        
+        
+        
+        
+        
+        
+        
+        
 
 root = Tk()
 obj = Formulaire(root)

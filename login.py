@@ -31,7 +31,7 @@ class Login:
         self.txt_password = Entry(login_fram, font=("times new roman",20),show="*", bg="lightgray")
         self.txt_password.place(x=100, y=270, width=320)
         
-        creer_btn = Button(login_fram, text="Créer un nouveau compte", cursor="hand2", font=("times new roman",15),bd=0, bg="cyan", fg="green").place(x=30, y=320)
+        creer_btn = Button(login_fram, text="Créer un nouveau compte", cursor="hand2", font=("times new roman",15),bd=0, bg="cyan", fg="green", command=self.fenetre_formulaire).place(x=30, y=320)
         
         oubli_btn = Button(login_fram, text="mot de passe oublié", cursor="hand2", font=("times new roman",15),bd=0, bg="cyan", fg="red", command=self.password_oublie_fenetre).place(x=300, y=320)
         
@@ -52,7 +52,9 @@ class Login:
                 if row is None:
                     messagebox.showerror("Erreur", "Email ou mot de passe invalide", parent=self.root)
                 else:
-                    messagebox.showinfo("Succès", "Bien Bonjour", parent=self.root)
+                    # messagebox.showinfo("Succès", "Bien Bonjour", parent=self.root)
+                    self.root.destroy()
+                    import Etudiant
 
             except pymysql.MySQLError as ex:
                 messagebox.showerror("Erreur", f"Erreur de connexion : {str(ex)}", parent=self.root)
@@ -118,6 +120,10 @@ class Login:
                     con.close()
         
     
+    def rein(self):
+        self.ecrit_question.current(0)
+        self.ecrit_repondre.delete(0, END)
+        self.ecrit_nouvpass.delete(0, END)
     
 
 
@@ -137,13 +143,23 @@ class Login:
                      cur.execute("UPDATE compte set  password=%s where email=%s", (self.ecrit_nouvpass.get(),self.txt_email.get(),))
                      con.commit()
                      messagebox.showinfo("Succès", "mot de passe modifié", parent=self.root2)
+                     self.rein()
+                     self.root2.destroy()
                 
             except Exception as es:
-                 messagebox.showerror("Erreur", f"Erreur de connexion : {str(es)}", parent=self.root)
+                 messagebox.showerror("Erreur", f"Erreur de connexion : {str(es)}", parent=self.root2)
                  
             finally:
                 if con:
                     con.close()
+                    
+                    
+    
+    def fenetre_formulaire(self):
+        self.root.destroy()
+        import register
+        
+        
                  
                  
             
