@@ -10,7 +10,7 @@ from pymysql import cursors
 class Etudiant:
     def __init__(self, root) :
         self.root = root
-        self.root.title("Inscription")
+        self.root.title("Ajout Etudiant")
         self.root.geometry("1920x1080+0+0")
     
 
@@ -88,7 +88,64 @@ class Etudiant:
         #Bouton reinitialiser
         btn_reinitialiser = Button(Gestion_Frame, text="Reinitialiser", font=("times new roman",15), bd=5, relief=GROOVE, bg="gray")
         btn_reinitialiser.place(x=450, y=600, width=120)
+        
+        
+        #affichage 
+        Details_Frame = Frame(self.root, bd=5, relief=GROOVE, bg="cyan")
+        Details_Frame.place(x=700, y=150, width=1100, height=700)
+        
+        Affiche_resulta = Label(Details_Frame, text="Recherche par", font=("times new roman", 30,"bold"), bg="cyan")
+        Affiche_resulta.place(x=50, y=50)
+        
+        rech = ttk.Combobox(Details_Frame, font=("times new roman",20), state="readonly")
+        rech["values"]=("nom","contact")
+        rech.place(x=350, y=55, width=180, height=30)
+        
+        rech_txt = Entry(Details_Frame, font=("times new roman", 20), bd=5, relief=GROOVE)
+        rech_txt.place(x=550,y=55, width=250, height=30)
+        
+        btn_rech = Button(Details_Frame, text="Rechercher", font=("times new roman",15), bd=10, bg="gray", relief=GROOVE)
+        btn_rech.place(x=810, y=55, width=120, height=35)
+        
+        btn_afftou = Button(Details_Frame, text="Afficher Tous", font=("times new roman",15), bd=10, bg="gray", relief=GROOVE)
+        btn_afftou.place(x=940, y=55, width=135, height=35)
+        
+        #Affichage
+        result_Fram = Frame (Details_Frame, bd=5, relief=GROOVE, bg="cyan")
+        result_Fram.place(x=10, y=110, width=1070, height=570)
+        
+        scroll_x = Scrollbar(result_Fram, orient=HORIZONTAL)
+        scroll_y = Scrollbar(result_Fram, orient=VERTICAL)
+        self.tabl_resul = ttk.Treeview(result_Fram, columns=("id","nom", "mail", "sexe", "contact", "dat","adresse"), xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
+        
+        scroll_x.pack(side=BOTTOM, fill=X)
+        scroll_y.pack(side=RIGHT, fill=Y)
+        
+        self.tabl_resul.heading("id", text="ID Etudiant")
+        self.tabl_resul.heading("nom", text="Nom")
+        self.tabl_resul.heading("mail", text="Mail")
+        self.tabl_resul.heading("sexe", text="Sexe")
+        self.tabl_resul.heading("contact", text="Contact")
+        self.tabl_resul.heading("dat", text="Date Naissance")
+        self.tabl_resul.heading("adresse", text="Adresse")
+        
+        
+        self.tabl_resul["show"]="headings"
+        
+        self.tabl_resul.column("id", width = 100)
+        self.tabl_resul.column("nom", width=150)
+        self.tabl_resul.column("mail", width=150)
+        self.tabl_resul.column("sexe", width=150)
+        self.tabl_resul.column("contact", width=150)
+        self.tabl_resul.column("dat", width=150)
+        self.tabl_resul.column("adresse", width=200)
+        
+        self.tabl_resul.pack()
+        
+        self.tabl_resul.bind("<ButtonRelease-1")
+        
 
+    
 
 
 
